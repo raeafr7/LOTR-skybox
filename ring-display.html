@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Riddles in the Dark</title>
+</head>
+
+<body onload="init()" style="background-color:#FCDFFC">
+    <h2 style="text-align:center">What have I got in my pocket?</h2>
+    <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+        <img align="left" src="SmeagolSIZED.jpg" alt="">
+        <canvas width=600 height=600 id="glcanvas" style="background-color:pink"></canvas>
+        <img align="right" src="GollumSIZED.jpg" alt="">
+    </div>
+    <p id="message" style="text-align:center">Drag mouse to rotate the view.</p>
+    <p id="message" style="text-align:center">Use arrows to rotate the ring.</p>
+
+    <script type="x-shader/x-vertex" id="vshaderSB">
+        uniform mat4 projection;
+        uniform mat4 modelview;
+        attribute vec3 coords;
+        varying vec3 vCoords;
+        void main() {
+           vec4 eyeCoords = modelview * vec4(coords,1.0);
+           gl_Position = projection * eyeCoords;
+           vCoords = coords;//gl_Position.xyz;
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fshaderSB">
+        precision mediump float;
+        varying vec3 vCoords;
+        uniform samplerCube skybox;
+        void main() {
+             gl_FragColor = textureCube(skybox, vCoords);
+        }
+    </script>
+
+    <script type="x-shader/x-vertex" id="vshader">
+        uniform mat4 projection;
+        uniform mat4 modelview;
+        attribute vec3 coords;
+        attribute vec3 normal;
+        varying vec3 viewCoords;
+        varying vec3 vNormal;
+        void main() {
+           vec4 eyeCoords = modelview * vec4(coords,1.0);
+           gl_Position = projection * eyeCoords;
+           viewCoords = eyeCoords.xyz;
+           vNormal = normal;
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fshader">
+        precision mediump float;
+        varying vec3 vCoords;
+        varying vec3 vNormal;
+        varying vec3 viewCoords;
+        uniform samplerCube skybox;
+        uniform mat3 normalMatrix;
+        uniform mat3 invVT;
+        void main() {
+             vec3 N = normalMatrix * vNormal;
+             vec3 V = -viewCoords;
+             vec3 R = 2.0 * dot(V,N) * N - V;
+             R = invVT * R; // Transform by inverse of view transform, which was applied to the skybox
+             gl_FragColor = textureCube(skybox, R);
+        }
+    </script>
+
+    <script type="text/javascript" src="gl-matrix-min.js"></script>
+    <script type="text/javascript" src="simple-rotator.js"></script>
+    <script type="text/javascript" src="3D-objects.js"></script>
+    <script type="text/javascript" src="create-scene.js"></script>
+
+</body>
+</html>
+
+
+
