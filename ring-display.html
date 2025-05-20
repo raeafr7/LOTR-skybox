@@ -7,15 +7,15 @@
 </head>
 
 <body onload="init()" style="background-color:#FCDFFC">
-    <h2 style="text-align:center">What have I got in my pocket?</h2>
-    <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
-        <img align="left" src="SmeagolSIZED.jpg" alt="">
-        <canvas width=600 height=600 id="glcanvas" style="background-color:pink"></canvas>
-        <img align="right" src="GollumSIZED.jpg" alt="">
-    </div>
-    <p id="message" style="text-align:center">Drag mouse to rotate the view.</p>
-    <p id="message" style="text-align:center">Use arrows to rotate the ring.</p>
-
+	<h2 style="text-align:center">What have I got in my pocket?</h2>
+	<div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+		<img align="left;" src="SmeagolSIZED.jpg" alt="">
+		<canvas width=600 height=600 id="glcanvas" style="background-color:pink"></canvas>
+		<img align="right;" src="GollumSIZED.jpg" alt="">
+	</div>
+	<p id="message1" style="text-align:center; margin-bottom:2px; margin-top:2px"><small>Drag mouse to rotate the view.</small></p>
+	<p id="message2" style="text-align:center; margin-top:2px;"><small>Use arrows to rotate the ring.</small></p>
+</body>
     <script type="x-shader/x-vertex" id="vshaderSB">
         uniform mat4 projection;
         uniform mat4 modelview;
@@ -73,8 +73,7 @@
     <script type="text/javascript" src="simple-rotator.js"></script>
     <script type="text/javascript" src="3D-objects.js"></script>
     <script type="text/javascript" src="create-scene.js"></script>
-
-</body>
+    
 </html>
 
 
